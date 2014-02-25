@@ -3,10 +3,17 @@
  */
 package database;
 
+import java.awt.Point;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+
+import channel.Sokgraph;
+import channel.SokgraphPoint;
 
 import database.connection.DatabaseGateway;
+import database.types.SokgraphSpecificationByStartAndEndPoints;
+import database.types.SqlSpecification;
 
 /**
  * @author Patrick Stein
@@ -20,11 +27,11 @@ public class SharkDatabaseConnection {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 	    
-	    DatabaseGateway dbConnection = null;
+	    PrototypeSharkRepository dbRepo = null;
 		
 		if(args.length == 5){
 			//Open a new connection using the database gateway
-		 dbConnection = new DatabaseGateway(args[0],
+		    dbRepo = new PrototypeSharkRepository(args[0],
 									        args[1],
 										    args[2],
 										    args[3],
@@ -33,24 +40,31 @@ public class SharkDatabaseConnection {
 			System.err.println("Not enough arguments to create a database connection.");
 			System.exit(1);
 		}
+		
+		LinkedList<SokgraphPoint> path = new LinkedList<SokgraphPoint>();
+		
+		LinkedList<Sokgraph> sokgraphList = null;
+		
+		path.add(new SokgraphPoint(1.0,0.0));
+		path.add(new SokgraphPoint(2.0,0.0));
+		path.add(new SokgraphPoint(3.0,0.0));
+		path.add(new SokgraphPoint(4.0,0.0));
+		
+		
 
-		ResultSet rs = null;
-		//execute a command
-		try {
-			rs = dbConnection.execute("SELECT * FROM account_information");
-			System.out.println(rs);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Sokgraph testSokgraph = new Sokgraph(path, null, "Patrick Stein", "qwerty",null);
+		
+		
+		SqlSpecification ss = new SokgraphSpecificationByStartAndEndPoints(testSokgraph,10.0);
 		
 		try {
-			dbConnection.destroy();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+            sokgraphList =  dbRepo.query(ss);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+		System.out.println(sokgraphList);
+		
 	}
 
 }

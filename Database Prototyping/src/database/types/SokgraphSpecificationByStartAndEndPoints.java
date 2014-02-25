@@ -16,14 +16,17 @@ public class SokgraphSpecificationByStartAndEndPoints implements SqlSpecificatio
 	@Override
 	public String toSqlClauses() {
 		
-		double sx = this.sokgraph.getEndPointX();
-		double sy = this.sokgraph.getEndPointY();
+		double sx = this.sokgraph.getStartPointX();
+		double sy = this.sokgraph.getStartPointY();
 		
 		double ex = this.sokgraph.getEndPointX();
 		double ey = this.sokgraph.getEndPointY();
 		
+		String cond = String.format("keyboardid = '%s' AND ",this.getSokgraph().getKeyboardID());
 		
-		return String.format("((manhattan(%s,%s,startPoint) + (manhattan(%s,%s,endPoint)) <= %s",sx,sy,ex,ey,getThreshold());
+		String secCond = String.format("manhattan(%f,%f,startPoint) <= %f AND manhattan(%f,%f,endPoint) <= %f",sx,sy,getThreshold(),ex,ey,getThreshold());
+		
+		return cond + secCond;
 		
 		
 	}
@@ -32,7 +35,8 @@ public class SokgraphSpecificationByStartAndEndPoints implements SqlSpecificatio
 		return threshold;
 		
 	}
-	
-	
+	private Sokgraph getSokgraph(){
+	    return this.sokgraph;
+	}
 
 }

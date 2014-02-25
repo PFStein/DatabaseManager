@@ -5,9 +5,9 @@ package database;
 
 import java.awt.List;
 import java.sql.SQLException;
+import java.util.LinkedList;
 
 import channel.Sokgraph;
-import database.types.SokgraphSpecification;
 import database.types.SqlSpecification;
 
 /**
@@ -15,11 +15,11 @@ import database.types.SqlSpecification;
  *
  */
 public interface SharkRepository{
-	void addSokgraph(Sokgraph s);
-	void removeSokgraph(Sokgraph s);
-	void updateSokgraph(Sokgraph s);
+	void addSokgraph(Sokgraph s) throws SQLException;
+	void removeSokgraph(Sokgraph s)throws SQLException;
+	void updateSokgraph(Sokgraph s)throws SQLException;
 	
-	List query(SokgraphSpecification specification) throws SQLException;
+	LinkedList<Sokgraph> query(SqlSpecification specification) throws SQLException;
 	
 
 }

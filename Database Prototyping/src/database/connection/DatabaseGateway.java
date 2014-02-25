@@ -1,4 +1,9 @@
 package database.connection;
+/**
+ * @author Jon Pearce
+ * @author Patrick Stein
+ * http://www.cs.sjsu.edu/~pearce/modules/patterns/enterprise/persistence/gateway.htm
+ */
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,18 +31,16 @@ public class DatabaseGateway {
         this.user = user;
         this.password = pswd;
         this.dbaseName = dbms + "/" + dbase;
-        try {
+        
+        try{
             Class.forName(driver);
             connection = DriverManager.getConnection(dbaseName, user, password);
             statement = connection.createStatement();
-        } catch (Exception e) {
-                System.err.println("can't connect to " + dbaseName + " because " + e);
-                try {
-                    connection = DriverManager.getConnection(dbaseName + ";create=true");
-                    statement = connection.createStatement();
-                } catch (Exception e2) {
-                     System.err.println("can't create " + dbaseName + " because " + e2);
-                }
+            
+        } catch(SQLException e){
+            System.err.println("can't connect to " + dbaseName + " because " + e);
+        } catch(ClassNotFoundException e){
+            System.err.println("can't find the the driver: " + this.driver);
         }
     }
     
