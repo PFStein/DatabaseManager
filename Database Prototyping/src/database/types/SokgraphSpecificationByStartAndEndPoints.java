@@ -1,13 +1,13 @@
 package database.types;
 
-import channel.Sokgraph;
+import channel.SokgraphImpl;
 
 public class SokgraphSpecificationByStartAndEndPoints implements SqlSpecification{
 
-	private Sokgraph sokgraph;
+	private SokgraphImpl sokgraph;
 	private double threshold;
 	
-	public SokgraphSpecificationByStartAndEndPoints(Sokgraph s, double t){
+	public SokgraphSpecificationByStartAndEndPoints(SokgraphImpl s, double t){
 		super();
 		this.sokgraph = s;
 		this.threshold = t;
@@ -35,7 +35,7 @@ public class SokgraphSpecificationByStartAndEndPoints implements SqlSpecificatio
 		return threshold;
 		
 	}
-	private Sokgraph getSokgraph(){
+	private SokgraphImpl getSokgraph(){
 	    return this.sokgraph;
 	}
 

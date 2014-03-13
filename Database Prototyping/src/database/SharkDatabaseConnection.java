@@ -3,15 +3,13 @@
  */
 package database;
 
-import java.awt.Point;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
 import channel.Sokgraph;
+import channel.SokgraphImpl;
 import channel.SokgraphPoint;
 
-import database.connection.DatabaseGateway;
 import database.types.SokgraphSpecificationByStartAndEndPoints;
 import database.types.SqlSpecification;
 
@@ -52,13 +50,16 @@ public class SharkDatabaseConnection {
 		
 		
 
-		Sokgraph testSokgraph = new Sokgraph(path, null, "Patrick Stein", "qwerty",null);
+		SokgraphImpl testSokgraph = new SokgraphImpl(path, "pill", "Patrick Stein", "qwerty",null);
 		
 		
 		SqlSpecification ss = new SokgraphSpecificationByStartAndEndPoints(testSokgraph,10.0);
 		
 		try {
             sokgraphList =  dbRepo.query(ss);
+            if(true){
+                dbRepo.addSokgraph(testSokgraph);                
+            }
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

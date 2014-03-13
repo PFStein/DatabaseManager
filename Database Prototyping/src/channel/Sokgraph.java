@@ -1,148 +1,62 @@
 package channel;
-
-import java.awt.Point;
-import java.util.LinkedList;
-
-import org.postgresql.geometric.PGpath;
-import org.postgresql.geometric.PGpoint;
 /**
+ * 
  * @author Patrick Stein
+ * Interface that specifies the behaviors that a Sokgraph should accomplish.
+ *
  *
  */
 
-public class Sokgraph {
+public interface Sokgraph {
     
-	private LinkedList<SokgraphPoint> coordinates;
-	private String[] keyboardLayout;
-	private String username;
-	private String keyboardID;
-	private String word;
-	private Point startPoint;
-	private Point endPoint;
-	
-	public Sokgraph(LinkedList<SokgraphPoint> coords,String word, String un,String keyboardID,String[] keyLayout){
-	    this.setCoordinates(coords);
-		this.setStartPoint(this.coordinates.getFirst());
-		this.setEndPoint(this.coordinates.getLast());
-		this.setUsername(un);
-		this.setWord(word);
-		this.setKeyboardLayout(keyLayout);
-		this.setKeyboardID(keyboardID);
-	}
-    public Sokgraph(PGpath path,String word, String un,String keyboardID,String[] keyLayout){
-        this.setCoordinates(path);
-        this.setStartPoint(this.coordinates.getFirst());
-        this.setEndPoint(this.coordinates.getLast());
-        this.setUsername(un);
-        this.setWord(word);
-        this.setKeyboardLayout(keyLayout);
-        this.setKeyboardID(keyboardID);
-    }
-	
-	//Private set methods
-	private void setCoordinates(PGpath path) {
-	    LinkedList<SokgraphPoint> newCoords = new LinkedList<SokgraphPoint>();
-	    if(path != null){
-    	    PGpoint[] pointsPath = path.points;
-    	    
-    	    for(PGpoint point: pointsPath){
-    	        new SokgraphPoint(point);
-    	        newCoords.add(new SokgraphPoint(point));
-    	    }
-	    }
-	    this.setCoordinates(newCoords);
-    }
-    private void setStartPoint(Point sp){
-	    this.startPoint = sp;
-	}
-	private void setEndPoint(Point ep){
-	    this.endPoint = ep;
-	}
-	private void setCoordinates(LinkedList<SokgraphPoint> coords){
-	    this.coordinates = coords;
-	}
     /**
-     * @param username the username to set
+     * Gets the x coordinate of the end point of the sokgraph
+     * @return returns a double representing the x coordinate of the end point of the sokgraph
      */
-    private void setUsername(String username) {
-        this.username = username;
-    }
-    private void setWord(String w){
-        this.word = w;
-    }
+    public double getEndPointX();
     /**
-     * @param keyboardLayout the keyboardLayout to set
+     * Gets the x coordinate of the end point of the sokgraph
+     * @return returns a double representing the x coordinate of the end point of the sokgraph
      */
-    private void setKeyboardLayout(String[] keyboardLayout) {
-        this.keyboardLayout = keyboardLayout;
-    }
+    public double getEndPointY();
     /**
-     * @param keyboardID the keyboardID to set
+     * Gets the x coordinate of the start point of the sokgraph
+     * @return returns a double representing the x coordinate of the start point of the sokgraph
      */
-    private void setKeyboardID(String keyboardID) {
-        this.keyboardID = keyboardID;
-    }   
-
-	//Public get methods
-	public double getEndPointX() {
-		return this.endPoint.getX();
-	}
-	public double getEndPointY(){
-		return this.endPoint.getY();
-	}
-	
-	public double getStartPointX() {
-		return this.startPoint.getX();
-	}
-	public double getStartPointY(){
-		return this.startPoint.getY();
-	}
+    public double getStartPointX();
     /**
-     * @return the keyboardID
+     * Gets the y coordinate of the start point of the sokgraph
+     * @return returns a double representing the y coordinate of the start point of the sokgraph
      */
-    public String getKeyboardID() {
-        return keyboardID;
-    }
-	
-	/**
-     * @return the word
-     */
-    public String getWord() {
-        return word;
-    }
+    public double getStartPointY();
     /**
-     * @return the username
+     * Returns the keyboardID of the keyboard layout. For instance, the typical QWERTY keyboard layout has an ID of "QWERTY"
+     * @return returns a string representing the keyboardID for a given layout.
      */
-    public String getUsername() {
-        return username;
-    }
+    public String getKeyboardID();
+    
     /**
-     * @return the keyboardLayout
+     * Returns the word that that is represented by this sokgraph. 
+     * @return returns a string that represents the word that this sokgraph represents on the given keyboard layout.
      */
-    public String[] getKeyboardLayout() {
-        // TODO unsafe, change to not return reference
-        return keyboardLayout;
-    }
-
-
-    public String toString(){
-	    
-	    String start = "[";
-	    String end = "]";
-	    
-	    StringBuilder path = new StringBuilder();
-	    path.append(start);
-	    
-	    for(Point p: this.coordinates){
-	        if(path.length() != start.length()){
-	            path.append(",");
-	        }
-	        path.append(p.toString());
-	    }
-	    
-	    path.append(end);
-        return path.toString();
-	    
-	}
+    public String getWord();
+    
+    /**
+     * Returns the username of the person that input this sokgraph.
+     * @return a string containing the username of the person who created the sokgraph
+     */
+    public String getUsername();
+    
+    /**
+     * Provides an array of strings that correspond to the keyboard layout.
+     * @return an array of strings that represent the order and what keys were used on the keyboard that this sokgraph was created on.
+     */
+    public String[] getKeyboardLayout();
+    
+    /**
+     * Takes the Sokgraph points and creates a string representing each coordinate in the sokgraph.
+     * @return a string representation of the sokgraph coordinates
+     */
+    public String toStringPath();
 
 }

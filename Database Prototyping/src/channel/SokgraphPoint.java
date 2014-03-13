@@ -11,6 +11,9 @@ import org.postgresql.geometric.PGpoint;
  * @author Patrick Stein
  *
  */
+
+// TODO Change from extends to just have a member of class Point
+
 public class SokgraphPoint extends Point{
     
     public SokgraphPoint(){
